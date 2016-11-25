@@ -41,8 +41,8 @@ for shard_index in range(1, len(shards)):
                 chunks.append(shards[shard_index][
                               (j + 1):(j + 1 + num_subjects + 1 + 3)])
                 numNewLines = 0
-    chunksToDel = []
 
+    chunksToDel = []
     # store chunkes to del in new list starting at 2, every 3 to fix duplicates
     for i in range(2, len(chunks), 3):
         chunksToDel.append(chunks[i])
@@ -68,7 +68,7 @@ for shard_index in range(1, len(shards)):
                 val.strip("_").lower().strip().replace(" ", ""))
 
     # create a csv file for each shard (event + measure combo)
-    with open("data" + str(shard_index) + ".csv", "w+") as out:
+    with open(filename.split(".")[0] + "data" + str(shard_index) + ".csv", "w+") as out:
         # assemble and write header
         header = ['subjID', 'type', 'component', 'segment']
         csv_out = csv.writer(out)
@@ -79,6 +79,7 @@ for shard_index in range(1, len(shards)):
             for i in range(3, len(data)):
                 data_vals = data[i].split("\t")
                 data_vals.pop(-1)
+                # LINE BELOW DEPENDS ON SUBJID FORMAT (i.e., "_x_")
                 subj_id = data_vals[0].split("_")[1]
                 data_vals.pop(0)
                 shard_data['segment'] = data[
